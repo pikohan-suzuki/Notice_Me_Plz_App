@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FB8200</color>
+    <color name="colorPrimaryShadow">#90FB8200</color>
+    <color name="colorPrimaryDark">#FB8200</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorBackground">#FFEEEA</color>
+    <color name="colorEditTextBackground">#ffffff</color>
+    <color name="colorLine">#00B900</color>
+    <color name="colorLineChecked">#006D00</color>
+    <color name="colorSlack">#3D0E3E</color>
+    <color name="colorSlackChecked">#220822</color>
+    <color name="colorSMS">#006EA6</color>
+    <color name="colorSMSChecked">#004466</color>
+    <color name="colorMessageBackground">#FFB472</color>
+    <color name="colorSelectedChip">#FDD835</color>
 </resources>

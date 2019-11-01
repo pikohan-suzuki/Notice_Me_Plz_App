@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Notice Me Plz</string>
     <string name="action_settings">Settings</string>
+    <string name="name">Name</string>
+    <string name="using_services">Using Services</string>
+    <string name="add_service">Add Service</string>
+    <string name="line">LINE</string>
+    <string name="sms">SMS</string>
+    <string name="slack">Slack</string>
 </resources>

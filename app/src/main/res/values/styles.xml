@@ -6,12 +6,34 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="editTextBackground">@color/colorEditTextBackground</item>
+        <item name="editTextStyle">
+            @style/TextInputEditTextStyle
+        </item>
+        <item name="android:textSize">14sp</item>
+
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextInputEditTextStyle" parent="Base.Widget.MaterialComponents.TextInputEditText">
+        <item name="android:background">@color/colorEditTextBackground</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    
+    <style name="TextLabelSize" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ButtonBackGround" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 
 </resources>
