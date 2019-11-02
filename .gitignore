@@ -12,3 +12,5 @@
 /captures
 .externalNativeBuild
 .cxx
+
+/app/src/main/java/com/amebaownd/pikohan_nwiatori/noticemeplz/data/Constants.kt
