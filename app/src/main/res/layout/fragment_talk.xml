@@ -13,33 +13,50 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:openDrawer="start">
 
+        tools:openDrawer="start">
+        <!--        android:fitsSystemWindows="true"-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/talk_recyclerView"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.noMessageExplainVisibility}"
+                app:layout_constraintBottom_toTopOf="@+id/cardView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:listitem="@layout/item_talk" />
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/talk_niwatori_bottle_explain"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="メッセージを追加してトークをはじめましょう!" />
 
-            <!-- Drawer Layout-->
+                <ImageView
+                    android:id="@+id/talk_niwatoriBottle_imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    app:srcCompat="@drawable/niwatori_bottle_line" />
+            </LinearLayout>
+
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minHeight="140dp"
-                app:cardBackgroundColor="#FFDAC0"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/talk_recyclerView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -52,45 +69,23 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent">
 
-                    <EditText
-                        android:id="@+id/talk_message_editText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="4dp"
-                        android:hint="Message"
-                        android:inputType="textPersonName"
-                        android:singleLine="false"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toStartOf="@+id/talk_send_imageButton"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/talk_chipGroup"
-                        tools:text="aaaaa" />
-
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/talk_chipGroup"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.google.android.material.chip.Chip
-                            android:id="@+id/talk_line_chip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Line"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                            android:textColor="@android:color/white"
-                            app:chipBackgroundColor="@color/colorLine"
-                            app:chipStrokeColor="@color/colorSelectedChip" />
-
-                        <com.google.android.material.chip.Chip
                             android:id="@+id/talk_mail_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{viewModel.onChipSelected}"
                             android:text="Mail"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@android:color/white"
@@ -101,6 +96,7 @@
                             android:id="@+id/talk_slack_chip"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:onClick="@{viewModel.onChipSelected}"
                             android:text="Slack"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textColor="@android:color/white"
@@ -113,12 +109,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
-                        android:backgroundTint="@color/colorPrimary"
+                        android:backgroundTint="@{viewModel.fabColor}"
+                        android:clickable="@{viewModel.isAbleToSend}"
                         android:cropToPadding="false"
                         android:duplicateParentState="false"
-                        app:layout_constraintBottom_toBottomOf="@+id/talk_message_editText"
+                        android:onClick="@{()-> viewModel.onSendButtonClicked()}"
+                        app:layout_constraintBottom_toBottomOf="@+id/talk_message_cardView"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/talk_message_editText"
+                        app:layout_constraintTop_toTopOf="@+id/talk_message_cardView"
                         app:srcCompat="@drawable/ic_send_white_24dp" />
 
                     <TextView
@@ -139,22 +137,27 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
+                        android:checked="@={viewModel.isRepeatChipChecked}"
+                        android:onClick="@{viewModel.onOnOffChipClicked}"
+                        android:text='@{viewModel.isRepeatChipChecked ? "ON" : "OFF"}'
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/white"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@drawable/background_on_off_chip"
                         app:chipStrokeColor="@color/colorMessageBackground"
                         app:chipStrokeWidth="3dp"
                         app:layout_constraintStart_toEndOf="@+id/repeat_text"
-                        app:layout_constraintTop_toBottomOf="@+id/talk_message_editText"
-                        tools:text="ON" />
+                        app:layout_constraintTop_toBottomOf="@+id/talk_message_cardView" />
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardView"
-                        android:layout_width="409dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         app:cardBackgroundColor="@color/colorBackground"
                         app:cardCornerRadius="5dp"
+                        app:cardUseCompatPadding="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/talk_repeat_chip">
@@ -164,7 +167,8 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:paddingTop="4dp"
-                            android:paddingBottom="8dp">
+                            android:paddingBottom="8dp"
+                            android:visibility="@{viewModel.repeatVisibility}">
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:layout_width="match_parent"
@@ -178,7 +182,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Start time"
+                                    android:text="@={viewModel.startTime}"
+                                    android:imeOptions="actionNext"
                                     android:inputType="time"
+                                    android:nextFocusForward="@+id/talk_interval_editText"
                                     android:textSize="14sp"
                                     tools:text="aaaa" />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -195,6 +202,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Interval"
+                                    android:text="@={viewModel.interval}"
                                     android:inputType="time"
                                     android:textSize="14sp"
                                     tools:text="aaaa" />
@@ -220,58 +228,108 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="ON"
+                        android:checked="@={viewModel.isTimerChipChecked}"
+                        android:onClick="@{viewModel.onOnOffChipClicked}"
+                        android:text='@{viewModel.isTimerChipChecked ? "ON" : "OFF"}'
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="@android:color/white"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@drawable/background_on_off_chip"
                         app:chipStrokeColor="@color/colorMessageBackground"
-                        app:chipStrokeWidth="3dp"
-                        app:layout_constraintEnd_toEndOf="@+id/talk_repeat_chip"
+                        app:chipStrokeWidth='3dp'
                         app:layout_constraintStart_toStartOf="@+id/talk_repeat_chip"
                         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
                     <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="16dp"
+                        android:visibility="@{viewModel.timerVisibility}"
                         app:cardBackgroundColor="@color/colorBackground"
                         app:cardCornerRadius="5dp"
+                        app:cardUseCompatPadding="true"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/talk_timer_chip">
 
-                        <LinearLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
                             android:paddingTop="4dp"
                             android:paddingBottom="8dp">
 
-                            <com.google.android.material.textfield.TextInputLayout
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/talk_time_editText"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:layout_marginRight="4dp"
+                                android:text="@={viewModel.time}"
+                                android:hint="Time"
+                                android:imeOptions="actionDone"
+                                android:inputType="datetime"
+                                android:textSize="14sp"
+                                tools:text="aaaa" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/talk_time_editText"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="4dp"
-                                    android:layout_marginRight="4dp"
-                                    android:hint="Time"
-                                    android:inputType="datetime"
-                                    android:textSize="14sp"
-                                    tools:text="aaaa" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                        </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/talk_message_cardView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:cardBackgroundColor="@color/colorBackground"
+                        app:cardCornerRadius="5dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintEnd_toStartOf="@+id/talk_send_imageButton"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/talk_chipGroup">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:paddingLeft="4dp"
+                            android:paddingTop="4dp"
+                            android:paddingRight="4dp"
+                            android:paddingBottom="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/talk_message_editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Message"
+                                android:text="@={viewModel.message}"
+                                android:textSize="14sp"
+                                tools:text="aaaa" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/talk_recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toTopOf="@+id/cardView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:talk_items="@{viewModel.messages}"
+                tools:listitem="@layout/item_talk">
+
+            </androidx.recyclerview.widget.RecyclerView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Drawer Layout-->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
