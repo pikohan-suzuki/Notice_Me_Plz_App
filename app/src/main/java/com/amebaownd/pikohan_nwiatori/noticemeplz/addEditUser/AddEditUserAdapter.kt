@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amebaownd.pikohan_nwiatori.noticemeplz.R
-import com.amebaownd.pikohan_nwiatori.noticemeplz.data.enum.ServiceCode
+import com.amebaownd.pikohan_nwiatori.noticemeplz.data.Constants
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.UsingService
 import com.amebaownd.pikohan_nwiatori.noticemeplz.databinding.ItemServicesBinding
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.MyContext
@@ -29,16 +29,14 @@ class AddEditUserAdapter(private val viewModel: AddEditUserViewModel) :
             binding.viewModel = viewModel
             binding.usingService= item
             binding.serviceName= when(item.service_code){
-                0x01->"LINE"
-                0x02->"SMS"
-                0x04->"Slack"
+                Constants.MAIL_SERVICE_CODE->"Mail"
+                Constants.SLACK_SERVICE_CODE->"Slack"
                 else->
                     throw IllegalArgumentException("There is not such serviceCode ${item.service_code}")
             }
             binding.serviceColor = when(item.service_code){
-                0x01-> MyContext.getColor(R.color.colorLine)
-                0x02-> MyContext.getColor(R.color.colorSMS)
-                0x04-> MyContext.getColor(R.color.colorSlack)
+                Constants.MAIL_SERVICE_CODE-> MyContext.getColor(R.color.colorSMS)
+                Constants.SLACK_SERVICE_CODE-> MyContext.getColor(R.color.colorSlack)
                 else->
                     throw IllegalArgumentException("There is not such serviceCode ${item.service_code}")
             }
@@ -69,5 +67,4 @@ class AddEditUserDiffCallback : DiffUtil.ItemCallback<UsingService>() {
     ): Boolean {
         return oldItem.equals(newItem)
     }
-
 }
