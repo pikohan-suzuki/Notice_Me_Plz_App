@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.transition.Visibility
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.User
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.UserAndUsingService
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.repository.UserListRepository
