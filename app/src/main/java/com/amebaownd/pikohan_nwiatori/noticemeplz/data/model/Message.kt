@@ -22,6 +22,8 @@ data class Message(
     val messageId:String=UUID.randomUUID().toString(),
     @ColumnInfo(name = "user_id")
     val id: String,
+    @ColumnInfo(name="message")
+    val message:String,
     @ColumnInfo(name = "timeStump")
     val timeStump: Long = Date().time,
     @ColumnInfo(name = "service_code")
