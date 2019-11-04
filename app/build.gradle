@@ -6,6 +6,10 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.amebaownd.pikohan_nwiatori.noticemeplz"
         minSdkVersion 21
@@ -29,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.1.0'
@@ -58,10 +62,10 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutines"
 
     //Navigation
-    implementation "android.arch.navigation:navigation-fragment:1.0.0"
-    implementation "android.arch.navigation:navigation-ui:1.0.0"
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
 
     //dataBinding
     kapt 'com.android.databinding:compiler:1.0-rc5'
@@ -72,6 +76,12 @@ dependencies {
     implementation "androidx.fragment:fragment-testing:$fragmentVersion"
     implementation "androidx.test:core:$androidXTestCoreVersion"
     implementation "androidx.fragment:fragment:$fragmentVersion"
+
+    //LINE
+    implementation 'com.linecorp:linesdk:5.0.1'
+    implementation files('C:/Users/suzuki.s/Documents/GitHub/Notice_Me_Plz_App/libs/mail.jar')
+    implementation files('C:/Users/suzuki.s/Documents/GitHub/Notice_Me_Plz_App/libs/additionnal.jar')
+    implementation files('C:/Users/suzuki.s/Documents/GitHub/Notice_Me_Plz_App/libs/activation.jar')
 }
 
 kapt {
