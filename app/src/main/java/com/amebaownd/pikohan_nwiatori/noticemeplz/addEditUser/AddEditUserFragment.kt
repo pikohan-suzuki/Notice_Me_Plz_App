@@ -8,16 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.amebaownd.pikohan_nwiatori.noticemeplz.MainActivity
-import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.UsingService
-import com.amebaownd.pikohan_nwiatori.noticemeplz.data.repository.AddEditRepository
 import com.amebaownd.pikohan_nwiatori.noticemeplz.databinding.FragmentAddEditBinding
-import com.amebaownd.pikohan_nwiatori.noticemeplz.userList.UserListFragmentDirections
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.EventObserver
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.getViewModelFactory
 import kotlinx.android.synthetic.main.fragment_add_edit.*
@@ -49,10 +44,11 @@ class AddEditUserFragment :Fragment(){
         setupFab()
         setupRecyclerView()
         val activityViewModel= (this.activity as MainActivity).viewModel
+        val user = activityViewModel.user
         val userId= args.userId ?: activityViewModel.user?.id
         val name = activityViewModel.name
         val usingServices = activityViewModel.usingServices
-        addEditUserViewModel.start(userId,name,usingServices,args.selectedServiceCode,args.address)
+        addEditUserViewModel.start(userId,user,name,usingServices,args.selectedServiceCode,args.address)
         onAddService()
         onNameChanged()
     }
@@ -63,8 +59,12 @@ class AddEditUserFragment :Fragment(){
 
     private fun setupFab(){
         addEditUserViewModel.submitEvent.observe(this,EventObserver{
-            if(it)
-                navigateToUserListFragment()
+            if(it) {
+                if(args.userId!=null)
+                    navigateToTalkFragment()
+                else
+                    navigateToUserListFragment()
+            }
         })
     }
 
@@ -109,6 +109,12 @@ class AddEditUserFragment :Fragment(){
     private fun navigateToChooseServiceFragment(){
         val action = AddEditUserFragmentDirections
             .actionAddEditUserFragmentToChooseServiceFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToTalkFragment(){
+        val action = AddEditUserFragmentDirections
+            .actionAddEditUserFragmentToTalkFragment(addEditUserViewModel.userAndUsingService.value!!.user.id,addEditUserViewModel.name.value!!)
         findNavController().navigate(action)
     }
 }
