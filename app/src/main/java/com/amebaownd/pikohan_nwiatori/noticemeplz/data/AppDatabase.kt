@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.dao.AddEditUserDao
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.dao.TalkDao
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.dao.UserListDao
@@ -15,7 +17,7 @@ import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.UsingService
     Message::class,
     User::class,
     UsingService::class
-],version = 1)
+],version = 2)
 abstract class AppDatabase: RoomDatabase(){
     abstract fun addEditUserDao():AddEditUserDao
     abstract fun talkDao():TalkDao
@@ -37,7 +39,7 @@ abstract class AppDatabase: RoomDatabase(){
                     AppDatabase::class.java,
                     "app_database"
                 )
-//                    .addMigrations()
+                    .addMigrations(MIGRATE1_2)
 //                    .addCallback()
                     .build()
 
@@ -45,5 +47,15 @@ abstract class AppDatabase: RoomDatabase(){
                 return instance
             }
         }
+
+        private val MIGRATE1_2 =object : Migration(1,2){
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("drop table message_table")
+                database.execSQL(
+                        "create table message_table(message_id TEXT NOT NULL PRIMARY KEY,user_id TEXT NOT NULL,message TEXT NOT NULL,timeStump INTEGER NOT NULL,service_code INTEGER NOT NULL,FOREIGN KEY (user_id) REFERENCES user_table(user_id) ON DELETE CASCADE ON UPDATE CASCADE)")
+            }
+        }
     }
+
+
 }
