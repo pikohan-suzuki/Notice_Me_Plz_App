@@ -21,4 +21,8 @@ class AddEditRepository (private val addEditUserDao: AddEditUserDao){
     suspend fun updateUser(user: User){
         addEditUserDao.updateUser(user)
     }
+
+    suspend fun deleteUsingServiceByUserId(userId: String){
+        addEditUserDao.deleteUsingServiceByUserId(userId)
+    }
 }
