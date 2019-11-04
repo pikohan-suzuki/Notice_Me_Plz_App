@@ -71,6 +71,7 @@ class UserListFragment : Fragment(){
     private fun onSearchTextChanged(){
         viewDataBinding.listSearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String?): Boolean {
+                userListViewModel.filterItem(newText ?: "")
                 return true
             }
 
