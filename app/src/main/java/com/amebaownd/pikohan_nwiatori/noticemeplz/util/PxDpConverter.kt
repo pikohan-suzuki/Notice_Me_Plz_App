@@ -2,7 +2,7 @@ package com.amebaownd.pikohan_nwiatori.noticemeplz.util
 
 import android.content.Context
 
-object PxDpComverter {
+object PxDpConverter {
     fun dp2Px(dp:Float,context: Context):Float{
         val metrics = context.resources.displayMetrics
         return dp * metrics.density
