@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/userListFragment">
+    app:startDestination="@id/userListFragment"
+    android:id="@+id/nav_graph">
 
     <fragment
         android:id="@+id/userListFragment"
@@ -14,11 +14,14 @@
         <action
             android:id="@+id/action_userListFragment_to_addEditUserFragment"
             app:destination="@id/addEditUserFragment" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="com.amebaownd.pikohan_niwatori.noticemeplz" />
     </fragment>
     <fragment
         android:id="@+id/talkFragment"
         android:name="com.amebaownd.pikohan_nwiatori.noticemeplz.talk.TalkFragment"
-        android:label="TalkFragment">
+        android:label="{title}">
         <argument
             android:name="userId"
             app:argType="string" />
@@ -28,6 +31,11 @@
         <action
             android:id="@+id/action_talkFragment_to_addEditUserFragment"
             app:destination="@id/addEditUserFragment" />
+        <action
+            android:id="@+id/action_talkFragment_to_userListFragment"
+            app:destination="@id/userListFragment"
+            app:popUpTo="@+id/userListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/addEditUserFragment"
