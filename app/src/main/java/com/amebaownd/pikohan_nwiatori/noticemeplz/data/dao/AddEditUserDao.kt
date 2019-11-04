@@ -27,5 +27,8 @@ interface AddEditUserDao {
     suspend fun  deleteUser(user:User)
 
     @Delete
-    suspend fun deleteUsingService(usingService: UsingService)
+    suspend fun deleteUsingService(vararg usingService: UsingService)
+
+    @Query("DELETE FROM using_service_table WHERE user_id=(:userId)")
+    suspend fun deleteUsingServiceByUserId(userId:String)
 }
