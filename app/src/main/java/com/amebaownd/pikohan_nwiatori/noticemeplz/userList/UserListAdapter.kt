@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amebaownd.pikohan_nwiatori.noticemeplz.R
+import com.amebaownd.pikohan_nwiatori.noticemeplz.data.Constants
 import com.amebaownd.pikohan_nwiatori.noticemeplz.data.model.UserAndUsingService
 import com.amebaownd.pikohan_nwiatori.noticemeplz.databinding.ItemUserBinding
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.MyContext
-import com.amebaownd.pikohan_nwiatori.noticemeplz.util.PxDpComverter
+import com.amebaownd.pikohan_nwiatori.noticemeplz.util.PxDpConverter
 import java.lang.IllegalArgumentException
 
 class UserListAdapter(private val viewModel: UserListViewModel,private val context: Context?) :
@@ -33,19 +33,19 @@ class UserListAdapter(private val viewModel: UserListViewModel,private val conte
             binding.viewModel = viewModel
             binding.user = item.user
             if(context!=null) {
+                binding.userItemServiceLayout.removeAllViews()
                 item.usingService.sortedBy { it.service_code }.forEach {
                     val view = View(context).apply {
                         val layoutParams =  LinearLayout.LayoutParams(
-                            PxDpComverter.dp2Px(16f, context).toInt(),
-                            PxDpComverter.dp2Px(16f, context).toInt()
+                            PxDpConverter.dp2Px(16f, context).toInt(),
+                            PxDpConverter.dp2Px(16f, context).toInt()
                         )
-                        layoutParams.setMargins(0,0,PxDpComverter.dp2Px(4f,context).toInt(),0)
+                        layoutParams.setMargins(0,0,PxDpConverter.dp2Px(4f,context).toInt(),0)
                         this.layoutParams=layoutParams
 
                         this.background = when (it.service_code) {
-                            0x01 -> MyContext.getDrawable(R.drawable.icon_green_service)
-                            0x02 -> MyContext.getDrawable(R.drawable.icon_sms_service)
-                            0x04 -> MyContext.getDrawable(R.drawable.icon_slack_service)
+                            Constants.MAIL_SERVICE_CODE -> MyContext.getDrawable(R.drawable.icon_sms_service)
+                            Constants.SLACK_SERVICE_CODE -> MyContext.getDrawable(R.drawable.icon_slack_service)
                             else ->
                                 throw IllegalArgumentException("There is not such serviceCode ${it.service_code}")
                         }
@@ -80,5 +80,4 @@ class UserListDiffCallback : DiffUtil.ItemCallback<UserAndUsingService>() {
     ): Boolean {
         return oldItem.equals(newItem)
     }
-
 }
