@@ -7,10 +7,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.amebaownd.pikohan_nwiatori.noticemeplz.R
-import com.amebaownd.pikohan_nwiatori.noticemeplz.data.enum.ServiceCode
+import com.amebaownd.pikohan_nwiatori.noticemeplz.data.Constants
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.Event
 import com.amebaownd.pikohan_nwiatori.noticemeplz.util.MyContext
-import com.amebaownd.pikohan_nwiatori.noticemeplz.util.PxDpComverter
+import com.amebaownd.pikohan_nwiatori.noticemeplz.util.PxDpConverter
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
@@ -25,6 +25,9 @@ class ChooseServiceViewModel() : ViewModel() {
     private var _submitEvent = MutableLiveData<Event<Boolean>>()
     val submitEvent: LiveData<Event<Boolean>> = _submitEvent
 
+    private var _hint = MutableLiveData<String>("Address")
+    val hint:LiveData<String> = _hint
+
     private var _fabColor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         MutableLiveData<Int>(MyContext.getContext().getColor(R.color.colorMessageBackground))
     } else {
@@ -37,16 +40,18 @@ class ChooseServiceViewModel() : ViewModel() {
 
     fun onChipChose(view: View) {
         when (view.id) {
-            R.id.chooseService_line_chip ->
-                _selectedService.value = ServiceCode.LINE.serviceCode
-            R.id.chooseService_sms_chip ->
-                _selectedService.value = ServiceCode.SMS.serviceCode
-            R.id.chooseService_slack_chip ->
-                _selectedService.value = ServiceCode.SLACK.serviceCode
+            R.id.chooseService_sms_chip -> {
+                _selectedService.value = Constants.MAIL_SERVICE_CODE
+                _hint.value = "Address"
+            }
+            R.id.chooseService_slack_chip -> {
+                _selectedService.value = Constants.SLACK_SERVICE_CODE
+                _hint.value = "User Name"
+            }
             else ->
                 return
         }
-        (view as Chip).chipStrokeWidth = PxDpComverter.dp2Px(3f, MyContext.getContext())
+        (view as Chip).chipStrokeWidth = PxDpConverter.dp2Px(3f, MyContext.getContext())
         (view.parent as ChipGroup).children.forEach {
             if (it.id != view.id) {
                 val chip = it as Chip
