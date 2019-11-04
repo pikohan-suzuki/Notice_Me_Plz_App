@@ -7,4 +7,6 @@
     <string name="line">LINE</string>
     <string name="sms">SMS</string>
     <string name="slack">Slack</string>
+    <string name="mail">Mail</string>
+    <string name="delete_service">delete_service</string>
 </resources>
