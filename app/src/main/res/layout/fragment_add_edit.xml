@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:ems="1"
                 android:hint="@string/name"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxEms="1"
                 android:text="@={viewModel.name}"
