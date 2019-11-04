@@ -1,21 +1,9 @@
 package com.amebaownd.pikohan_nwiatori.noticemeplz.util
 
-import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Build
 import java.lang.RuntimeException
-
-//class NoticeMePlzApp : Application() {
-//    val repository: FoodStuffRepository
-//        get() = ServiceLoader.provideFoodStuffRepository(
-//            this
-//        )
-//    override fun onCreate() {
-//        super.onCreate()
-//        MyContext.onCreateAppcalition(this)
-//    }
-//}
 
 class MyContext(application : Context){
     var applicationContext = application
